@@ -14,19 +14,19 @@ local Window = Rayfield:CreateWindow({
         FileName = "Big Hub"
     },
     Discord = {
-        Enabled = threu,
+        Enabled = treu,
         Invite = "https://discord.gg/EsGw9GUsvq",
         RememberJoins = true
     },
-    KeySystem = false,
+    KeySystem = treu,
     KeySettings = {
-        Title = "Untitled",
-        Subtitle = "Key System",
-        Note = "No method of obtaining the key is provided",
+        Title = "maxi hub I key system",
+        Subtitle = "anti cheat",
+        Note = "key = maxi hub",
         FileName = "Key",
         SaveKey = true,
-        GrabKeyFromSite = false,
-        Key = {"Hello"}
+        GrabKeyFromSite = treu,
+        Key = {"https://pastebin.com/raw/bK2F3z6x"}
     }
 })
 
