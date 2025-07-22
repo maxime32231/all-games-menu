@@ -1,0 +1,218 @@
+-- made by maxime. wanna make your own ? try : https://v0-rayfield-ui-generator.vercel.app/
+
+
+
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "Maxi hub",
+    LoadingTitle = "All games script ",
+    LoadingSubtitle = "by Maxime",
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = nil,
+        FileName = "Big Hub"
+    },
+    Discord = {
+        Enabled = false,
+        Invite = "noinvitelink",
+        RememberJoins = true
+    },
+    KeySystem = false,
+    KeySettings = {
+        Title = "Untitled",
+        Subtitle = "Key System",
+        Note = "No method of obtaining the key is provided",
+        FileName = "Key",
+        SaveKey = true,
+        GrabKeyFromSite = false,
+        Key = {"Hello"}
+    }
+})
+
+local MainmodsTab = Window:CreateTab("Main mods", 4483362458)
+
+local Speed = MainmodsTab:CreateSlider({
+    Name = "Speed",
+    Range = {16, 301},
+    Increment = 1,
+    Suffix = "Speed",
+    CurrentValue = 50,
+    Flag = "slider_Speed",
+    Callback = function(Value)
+        -- ▼ USER INSERT SCRIPT HERE ▼
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+-- Value is the speed from the slider
+humanoid.WalkSpeed = Value
+    end,
+})
+
+local Infinitejump = MainmodsTab:CreateToggle({
+    Name = "Infinite jump",
+    CurrentValue = false,
+    Flag = "toggle_Infinitejump",
+    Callback = function(Value)
+        -- ▼ USER INSERT SCRIPT HERE ▼
+local UserInputService = game:GetService("UserInputService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Disconnect any existing connection
+if _G.InfiniteJumpConnection then
+    _G.InfiniteJumpConnection:Disconnect()
+    _G.InfiniteJumpConnection = nil
+end
+
+if Value == true then
+    _G.InfiniteJumpConnection = UserInputService.JumpRequest:Connect(function()
+        humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+    end)
+else
+    -- Disable infinite jump
+    if _G.InfiniteJumpConnection then
+        _G.InfiniteJumpConnection:Disconnect()
+        _G.InfiniteJumpConnection = nil
+    end
+end
+    end,
+})
+
+local Wallhack = MainmodsTab:CreateToggle({
+    Name = "Wall hack",
+    CurrentValue = false,
+    Flag = "toggle_Wallhack",
+    Callback = function(Value)
+        -- ▼ USER INSERT SCRIPT HERE ▼
+local RunService = game:GetService("RunService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Disconnect any existing connection
+if _G.NoClipConnection then
+    _G.NoClipConnection:Disconnect()
+    _G.NoClipConnection = nil
+end
+
+if Value == true then
+    _G.NoClipConnection = RunService.Stepped:Connect(function()
+        for _, part in pairs(character:GetDescendants()) do
+            if part:IsA("BasePart") and part.CanCollide == true then
+                part.CanCollide = false
+            end
+        end
+    end)
+else
+    -- Turn NoClip OFF: re-enable collisions
+    for _, part in pairs(character:GetDescendants()) do
+        if part:IsA("BasePart") then
+            part.CanCollide = true
+        end
+    end
+end
+    end,
+})
+
+local Changecollor = MainmodsTab:CreateDropdown({
+    Name = "Change collor",
+    Options = {"Red", "Bleu", "Gold", "Rainbow"},
+    CurrentOption = {"Option 1"},
+    MultipleOptions = false,
+    Flag = "dropdown_Changecollor",
+    Callback = function(Options)
+        -- ▼ USER INSERT SCRIPT HERE ▼
+local player = game.Players.LocalPlayer
+
+local function setColor(color)
+    local character = player.Character or player.CharacterAdded:Wait()
+    for _, part in pairs(character:GetDescendants()) do
+        if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
+            part.Color = color
+        end
+    end
+end
+
+if Options[1] == "Red" then
+    setColor(Color3.fromRGB(255, 0, 0))
+elseif Options[1] == "Blue" then
+    setColor(Color3.fromRGB(0, 0, 255))
+elseif Options[1] == "Gold" then
+    setColor(Color3.fromRGB(255, 215, 0))
+elseif Options[1] == "Rainbow" then
+    -- Animated rainbow color loop
+    if _G.RainbowLoop then _G.RainbowLoop:Disconnect() end
+
+    _G.RainbowLoop = game:GetService("RunService").RenderStepped:Connect(function()
+        local character = player.Character
+        if not character then return end
+
+        local t = tick()
+        local rainbow = Color3.fromHSV((t % 5) / 5, 1, 1)
+        for _, part in pairs(character:GetDescendants()) do
+            if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
+                part.Color = rainbow
+            end
+        end
+    end)
+else
+    -- Stop rainbow if something else is picked
+    if _G.RainbowLoop then
+        _G.RainbowLoop:Disconnect()
+        _G.RainbowLoop = nil
+    end
+end
+    end,
+})
+
+local Changename = MainmodsTab:CreateInput({
+    Name = "Change name",
+    CurrentValue = "",
+    PlaceholderText = "Your name",
+    RemoveTextAfterFocusLost = false,
+    Flag = "input_Changename",
+    Callback = function(Text)
+        -- ▼ USER INSERT SCRIPT HERE ▼
+local player = game.Players.LocalPlayer
+local text = Text -- The value from the input box
+
+-- Change name in the player list (visual only)
+local success, err = pcall(function()
+    player.DisplayName = text
+end)
+
+if not success then
+    warn("Failed to change name: ", err)
+end
+    end,
+})
+
+local InkgamesscriptTab = Window:CreateTab("Ink games script", 4483362458)
+
+local Openscript = InkgamesscriptTab:CreateButton({
+    Name = "Open script",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/wefwef127382/inkgames.github.io/refs/heads/main/ringta.lua"))()
+    end,
+})
+
+local StealabrainrodTab = Window:CreateTab("Steal a brainrod", 4483362458)
+
+local Openscript = StealabrainrodTab:CreateButton({
+    Name = "Open script",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Youifpg/Steal-a-Brainrot-op/refs/heads/main/Arbixhub-obfuscated.lua"))()
+    end,
+})
+
+local GrowagardenTab = Window:CreateTab("Grow a garden", 4483362458)
+
+local Openscript = GrowagardenTab:CreateButton({
+    Name = "Open script",
+    Callback = function()
+        local Spawner = loadstring(game:HttpGet("https://codeberg.org/GrowAFilipino/GrowAGarden/raw/branch/main/Spawner.lua"))()
+Spawner.Load()
+    end,
+})
+
