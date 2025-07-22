@@ -14,8 +14,8 @@ local Window = Rayfield:CreateWindow({
         FileName = "Big Hub"
     },
     Discord = {
-        Enabled = false,
-        Invite = "noinvitelink",
+        Enabled = threu,
+        Invite = "https://discord.gg/EsGw9GUsvq",
         RememberJoins = true
     },
     KeySystem = false,
