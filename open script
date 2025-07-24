@@ -25,8 +25,8 @@ local Window = Rayfield:CreateWindow({
         Note = "join discord for key : https://discord.gg/EsGw9GUsvq",
         FileName = "Key",
         SaveKey = true,
-        GrabKeyFromSite = true,
-        Key = {"https://pastebin.com/raw/bK2F3z6x"}
+        GrabKeyFromSite = false,
+        Key = {"maxi hub"}
     }
 })
 
